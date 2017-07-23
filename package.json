@@ -1,0 +1,15 @@
+{
+  "name": "pty-tunnel",
+  "version": "0.1",
+  "bin": { "pty-tunnel": "./index.js" },
+  "description": "Provide a simple tunnel to a command run in a pty.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adrian Pike <adrian@adrianpike.com>",
+  "license": "ISC",
+  "dependencies": {
+    "pty.js": "^0.3.1"
+  }
+}
