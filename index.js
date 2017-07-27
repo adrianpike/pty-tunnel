@@ -1,11 +1,13 @@
 const WAIT_TIME = 60;
+const PORT_LOWER = 20000;
+const PORT_RANGE = 100;
 
 const Fs = require('fs');
 const Path = require('path');
 const Pty = require('pty.js');
 const Tls = require('tls');
 
-const Port = Math.floor(Math.random() * 1000 + 20000);
+const Port = Math.floor(Math.random() * PORT_RANGE + PORT_LOWER);
 
 var cmd = process.argv[2];
 var args = process.argv.slice(3);
@@ -37,8 +39,8 @@ const server = Tls.createServer({
 
 server.listen(Port);
 
-console.log(`Pipe opened to ${cmd} with args ${args.join(' ')}. Closing in ${WAIT_TIME} seconds without a connection...`);
-console.log(`openssl s_client -quiet -connect localhost:${Port}`);
+console.log(`Our port is: ${Port}`);
+console.log(`Pipe opened to ${cmd} with args ${args.join(' ')}. Closing in ${WAIT_TIME} seconds unless we get a connection...`);
 
 var killer = setTimeout(function() {
   process.exit(0); 

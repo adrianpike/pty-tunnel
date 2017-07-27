@@ -9,9 +9,14 @@ Gen you up some self-signed keys;
 $ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
 ```
 
-Usage: `pty-tunnel COMMAND`
+Fire up a tunnel:
 
 ```bash
 $ pty-tunnel docker-compose -f ~/src/adrians-example-app/docker-compose.yml run web rails c
 ```
 
+Connect to it:
+
+```bash
+$ openssl s_client -quiet -connect HOST:PORT
+```
