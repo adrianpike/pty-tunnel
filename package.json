@@ -1,6 +1,6 @@
 {
   "name": "pty-tunnel",
-  "version": "0.1",
+  "version": "0.0.1",
   "bin": { "pty-tunnel": "./index.js" },
   "description": "Provide a simple tunnel to a command run in a pty.",
   "main": "index.js",
