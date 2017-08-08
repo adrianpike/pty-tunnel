@@ -18,5 +18,5 @@ $ pty-tunnel docker-compose -f ~/src/adrians-example-app/docker-compose.yml run 
 Connect to it:
 
 ```bash
-$ openssl s_client -quiet -connect HOST:PORT
+$ stty raw; openssl s_client -quiet -connect HOST:PORT; reset
 ```

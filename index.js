@@ -4,7 +4,7 @@ const PORT_RANGE = 100;
 
 const Fs = require('fs');
 const Path = require('path');
-const Pty = require('pty.js');
+const Pty = require('node-pty');
 const Tls = require('tls');
 
 const Port = Math.floor(Math.random() * PORT_RANGE + PORT_LOWER);
@@ -19,19 +19,36 @@ if (!cmd) {
 
 Child = Pty.spawn(cmd, args, { });
 
-Child.on('exit', function() {
+Child.on('error', function(err) {
+  console.error('Unable to start process.', err);
+  process.exit(0);
+});
+
+Child.on('exit', function(err) {
   console.error('Child process stopped, we\'re done here.');
   process.exit(0);
 });
+
+var bufs = [];
+var bufferListener = function(data) {
+  bufs.push(data);
+};
+Child.on('data', bufferListener);
 
 const server = Tls.createServer({ 
   key: Fs.readFileSync(Path.join(__dirname, 'keys', 'key.pem')),
   cert: Fs.readFileSync(Path.join(__dirname, 'keys', 'cert.pem'))
 }, (c) => {
   console.log('Connection from', c.remoteAddress);
-  c.pipe(Child.stdin);
-  Child.stdout.pipe(c);
-  Child.stdin.write("\n");
+  c.pipe(Child);
+
+  Child.removeListener('data', bufferListener);
+  Child.on('data', function(data) {
+    c.write(data);
+  });
+
+  c.write(bufs.join(''));
+
   c.on('end', function() {
     process.exit(1);
   });
