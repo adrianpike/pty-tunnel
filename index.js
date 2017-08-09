@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const WAIT_TIME = 60;
 const PORT_LOWER = 20000;
 const PORT_RANGE = 100;
